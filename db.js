@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const URI = process.env.MONGOLAB_URI || process.env.MONGODB_URI;
+const URI = process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/tesi';
 const DEBUG = process.env.DEBUG;
 
 module.exports = () => {

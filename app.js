@@ -10,7 +10,9 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
 // Load env vars from .env file, where API keys and passwords are configured
-require('dotenv').config();
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config();
+}
 require('./db')();
 
 const app = express();
