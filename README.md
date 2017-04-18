@@ -22,6 +22,7 @@ npm install
 
 ```sh
 cd tesi-gis
+cp .env.example .env # after copying config your env vars
 yarn run dev
 # or with npm
 npm run dev
