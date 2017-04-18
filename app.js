@@ -7,9 +7,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const compress = require('compression');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
 // Load env vars from .env file, where API keys and passwords are configured
-dotenv.load();
+require('dotenv').config();
+require('./db')();
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
