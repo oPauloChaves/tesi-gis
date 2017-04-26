@@ -60,42 +60,42 @@ block content
           data-position='top', 
           data-relay='50', 
           data-tooltip='Bairro',
-          onclick='insertObject("Polygon")')
+          onclick='insertObject("Polygon", this)')
           i.material-icons border_outer
       li
         a.btn-floating.lighten-5.tooltipped(
           data-position='top',
           data-relay='50',
           data-tooltip='Rua',
-          onclick='insertObject("LineString")')
+          onclick='insertObject("LineString", this)')
           i.material-icons border_inner
       li
         a.btn-floating.lighten-5.tooltipped(
           data-position='top',
           data-relay='50', 
           data-tooltip='Quadra',
-          onclick='insertObject("Polygon")')
+          onclick='insertObject("Polygon", this)')
           i.material-icons border_all
       li
         a.btn-floating.lighten-5.tooltipped(
           data-position='top',
           data-relay='50',
           data-tooltip='Edificações',
-          onclick='insertObject("Polygon")')
+          onclick='insertObject("Polygon", this)')
           i.material-icons business
       li
         a.btn-floating.lighten-5.tooltipped(
           data-position='top',
           data-relay='50',
           data-tooltip='Ponto de ônibus',
-          onclick='insertObject("Point")')
+          onclick='insertObject("Point", this)')
           i.material-icons directions_bus
       li
         a.btn-floating.lighten-5.tooltipped(
           data-position='top',
           data-relay='50',
           data-tooltip='Rio',
-          onclick='insertObject("MultiLineString")')
+          onclick='insertObject("MultiLineString", this)')
           i.material-icons gesture
 
   script(src='/scripts/openlayers.js')
