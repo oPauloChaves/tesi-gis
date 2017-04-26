@@ -3,7 +3,13 @@ const router = express.Router();
 const Location = require('../models/Location');
 
 /* GET locations listing. */
-router.get('/', (req, res, next) => Location.find({}, (err, locations) => err ? res.status(500).send(err) : locations ? res.status(200).send(locations) : res.sendStatus(404)));
+router.get('/', (req, res, next) => {
+    console.log(JSON.stringify(req.query));
+    let query = {}
+    if (req.query.nome)
+        query = { nome: { $regex: req.query.nome, $options: 'i' } }
+    Location.find(query, (err, locations) => err ? res.status(500).send(err) : locations ? res.status(200).send(locations) : res.sendStatus(404))
+});
 
 router.get('/:id', (req, res, next) => Location.findOne({ _id: req.params.id }, (err, location) => err ? res.status(500).send(err) : location ? res.status(200).send(location) : res.sendStatus(404)));
 /** 
