@@ -1,0 +1,22 @@
+const express = require('express');
+const router = express.Router();
+const Location = require('../models/Location');
+
+/* GET locations listing. */
+router.get('/', (req, res, next) => Location.find({}, (err, locations) => err ? res.status(500).send(err) : locations ? res.status(200).send(locations) : res.sendStatus(404)));
+
+router.get('/:id', (req, res, next) => Location.findOne({ _id: req.params.id }, (err, location) => err ? res.status(500).send(err) : location ? res.status(200).send(location) : res.sendStatus(404)));
+
+/** 
+ * POST create new locations
+ */
+router.post('/', (req, res, next) => {
+    if (req.body.loc) {
+        const newLocation = new Location(req.body);
+        newLocation.save((err, location) => err ? res.status(500).send(err) : location ? res.status(200).send(location) : res.sendStatus(500));
+    } else {
+        res.status(400).send({ message: 'nenhuma localização enviada' });
+    }
+})
+
+module.exports = router;
