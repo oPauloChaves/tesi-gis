@@ -1,5 +1,4 @@
 const express = require('express');
-const userRoutes = require('./users');
 const locationRoutes = require('./location');
 
 const router = express.Router();
@@ -9,9 +8,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// mount user routes at /users
-router.use('/users', userRoutes);
-
+// mount locations routes at /locations
 router.use('/locations', locationRoutes);
 
 module.exports = router;
