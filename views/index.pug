@@ -1,75 +1,51 @@
 extends layout
-
 block content
-  // Static navbar
-  nav.navbar.navbar-default.navbar-static-top
-    .container-fluid
-      .navbar-header
-        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-          span.sr-only Toggle navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        a.navbar-brand(href='#') TESI
-      #navbar.navbar-collapse.collapse
-        ul.nav.navbar-nav
-          li.active
-            a(href='#') Home
-        form.navbar-form.navbar-left
-          labe.control-label Tipo Objeto&nbsp;
-          select#type.form-control
-            option(data-type='' value='None') Selecione...
-            option(data-type='bairro' value='Polygon') Bairro
-            option(data-type='rua' value='LineString') Rua
-            option(data-type='quadra' value='Polygon') Quadra
-            option(data-type='edificacao' value='Polygon') Edificação
-            option(data-type='ponto_onibus' value='Point') Ponto de Ônibus
-            option(data-type='rio' value='MultiLineString') Rio
+  #map.map
+  .fixed-action-btn.horizontal.click-to-toggle
+    a.btn-floating.btn-large.green
+      i.material-icons add
+    ul
+      li
+        a.btn-floating.lighten-5.tooltipped(
+          data-position='top', 
+          data-relay='50', 
+          data-tooltip='Bairro',
+          onclick='insertObject("Polygon")')
+          i.material-icons border_outer
+      li
+        a.btn-floating.lighten-5.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Rua',
+          onclick='insertObject("LineString")')
+          i.material-icons border_inner
+      li
+        a.btn-floating.lighten-5.tooltipped(
+          data-position='top',
+          data-relay='50', 
+          data-tooltip='Quadra',
+          onclick='insertObject("Polygon")')
+          i.material-icons border_all
+      li
+        a.btn-floating.lighten-5.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Edificações',
+          onclick='insertObject("Polygon")')
+          i.material-icons business
+      li
+        a.btn-floating.lighten-5.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Ponto de ônibus',
+          onclick='insertObject("Point")')
+          i.material-icons directions_bus
+      li
+        a.btn-floating.lighten-5.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Rio',
+          onclick='insertObject("MultiLineString")')
+          i.material-icons gesture
 
-        ul.nav.navbar-nav.navbar-right
-          li
-            a(href='#') Default
-
-  .container-fluid.tesi-content
-    .row
-      .col-lg-10.col-md-9
-        #map.map
-      .col-lg-2.col-md-3.sidebar
-        p Objects
-
-  script.
-    var raster = new ol.layer.Tile({
-      source: new ol.source.OSM()
-    });
-    var source = new ol.source.Vector({wrapX: false});
-    var vector = new ol.layer.Vector({
-      source: source
-    });
-    var map = new ol.Map({
-      layers: [raster, vector],
-      target: 'map',
-      view: new ol.View({
-        center: [-4765694, -567410],
-        zoom: 15
-      })
-    });
-    var typeSelect = document.getElementById('type');
-    var draw; // global so we can remove it later
-    function addInteraction() {
-      var value = typeSelect.value;
-      if (value !== 'None') {
-        draw = new ol.interaction.Draw({
-          source: source,
-          type: /** @type {ol.geom.GeometryType} */ (typeSelect.value)
-        });
-        map.addInteraction(draw);
-      }
-    }
-    /**
-    * Handle change event.
-    */
-    typeSelect.onchange = function() {
-      map.removeInteraction(draw);
-      addInteraction();
-    };
-    addInteraction();
+  script(src='/scripts/openlayers.js')
