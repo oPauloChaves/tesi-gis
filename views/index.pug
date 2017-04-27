@@ -23,32 +23,32 @@ block content
           .mdl-cell.mdl-cell--8-col
             label.mdl-icon-toggle.mdl-js-icon-toggle.mdl-js-ripple-effect(for='bairro')
               input#bairro.mdl-icon-toggle__input(type='checkbox')
-              |  
+              |
               i.mdl-icon-toggle__label.material-icons border_outer
 
             label.mdl-icon-toggle.mdl-js-icon-toggle.mdl-js-ripple-effect(for='rua')
               input#rua.mdl-icon-toggle__input(type='checkbox')
-              |  
+              |
               i.mdl-icon-toggle__label.material-icons border_inner
 
             label.mdl-icon-toggle.mdl-js-icon-toggle.mdl-js-ripple-effect(for='quadra')
               input#quadra.mdl-icon-toggle__input(type='checkbox')
-              |  
+              |
               i.mdl-icon-toggle__label.material-icons border_all
 
             label.mdl-icon-toggle.mdl-js-icon-toggle.mdl-js-ripple-effect(for='edificacao')
               input#edificacao.mdl-icon-toggle__input(type='checkbox')
-              |  
+              |
               i.mdl-icon-toggle__label.material-icons business
 
             label.mdl-icon-toggle.mdl-js-icon-toggle.mdl-js-ripple-effect(for='onibus')
               input#onibus.mdl-icon-toggle__input(type='checkbox')
-              |  
+              |
               i.mdl-icon-toggle__label.material-icons directions_bus
-            
+
             label.mdl-icon-toggle.mdl-js-icon-toggle.mdl-js-ripple-effect(for='rio')
               input#rio.mdl-icon-toggle__input(type='checkbox')
-              |  
+              |
               i.mdl-icon-toggle__label.material-icons gesture
 
   .fixed-action-btn.horizontal.click-to-toggle
@@ -57,8 +57,15 @@ block content
     ul
       li
         a.btn-floating.lighten-5.tooltipped(
-          data-position='top', 
-          data-relay='50', 
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Mapa',
+          onclick='insertObject("Polygon", this)')
+          i.material-icons map
+      li
+        a.btn-floating.lighten-5.tooltipped(
+          data-position='top',
+          data-relay='50',
           data-tooltip='Bairro',
           onclick='insertObject("Polygon", this)')
           i.material-icons border_outer
@@ -72,7 +79,7 @@ block content
       li
         a.btn-floating.lighten-5.tooltipped(
           data-position='top',
-          data-relay='50', 
+          data-relay='50',
           data-tooltip='Quadra',
           onclick='insertObject("Polygon", this)')
           i.material-icons border_all
