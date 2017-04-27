@@ -71,29 +71,17 @@ function openLayers() {
 
     function parseFeature(rawFeature) {
         try {
-            if(rawFeature instanceof Array) {
+            if (rawFeature instanceof Array) {
                 return rawFeature.map(_parseFeature);
             }
-        } catch(e) {
+        } catch (e) {
             console.error('IGNORE', e)
         }
         return _parseFeature(rawFeature);
     }
 
     function _parseFeature(rawFeature) {
-        switch(rawFeature.loc.type) {
-            case 'Point':
-                rawFeature.loc = new ol.geom.Point(rawFeature.loc.coordinates);
-                return rawFeature;
-            case 'Polygon':
-                rawFeature.loc = new ol.geom.Polygon(rawFeature.loc.coordinates);
-                return rawFeature;
-            case 'LineString':
-                rawFeature.loc = new ol.geom.LineString(rawFeature.loc.coordinates);
-                return rawFeature;
-            case 'MultiLineString':
-                rawFeature.loc = new ol.geom.MultiLineString(rawFeature.loc.coordinates);
-                return rawFeature;
-        }
+        var geojsonFormat = new ol.format.GeoJSON();
+        return geojsonFormat.readFeature(rawFeature.loc);
     }
 }
