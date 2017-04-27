@@ -1,6 +1,5 @@
 module.exports = (app) => {
     const Location = require('../models/Location')
-    // const Map = require('../models/Map')
     /**
      * filtro por regex para todos os attr
      * filtro por denominacao
@@ -10,7 +9,7 @@ module.exports = (app) => {
      * GET locations listing.
      * nome filter (ex.: ?nome=Bar)
      */
-    app.get('/locations', /*getMapLocations,*/(req, res, next) => {
+    app.get('/locations', (req, res, next) => {
         let query = {}
         if (req.query.nome)
             query.nome = { $regex: req.query.nome, $options: 'i' }
@@ -25,7 +24,7 @@ module.exports = (app) => {
     /** 
      * POST create new locations
      */
-    app.post('/locations', /*getMapLocations,*/(req, res, next) => {
+    app.post('/locations', (req, res, next) => {
         if (req.body.loc) {
             const newLocation = new Location(req.body);
             newLocation.save((err, location) => {
@@ -77,19 +76,5 @@ module.exports = (app) => {
         Location.find({ loc: { $near: location.loc, $maxDistance: req.query.distance || 1 } }, (err, nears) => err ? res.status(500).send(err) : nears ? res.status(200).send(nears) : res.sendStatus(404));
     }));
 
-    /* function getMapLocations(req, res, next) {
-         Map.findOne({ _id: req.params.mid }, (err, map) => {
-             if (err) res.status(500).send(err)
-             else {
-                 res.locals.locations = map.locations;
-                 next()
-             }
-         });
-     }
-     function storeLocationMap(mapId, locationId, callback) {
-         Map.findOneAndUpdate({ _id: mapId }, { $push: { locations: locationId } }, { new: true }, (err, map) => {
-             if (err) callback(err);
-             else callback(null, map.locations)
-         });
-     }*/
+
 }
