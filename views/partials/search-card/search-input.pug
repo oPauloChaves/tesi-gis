@@ -1,0 +1,12 @@
+.search-input
+    .input-field
+        input.validate(placeholder='Pesquisar')
+    .icons
+        i.material-icons search
+        a.filter.tooltipped(
+            data-position='bottom',
+            data-relay='50',
+            data-tooltip='Filtrar',
+            ng-click='vm.isFiltering = !vm.isFiltering'
+        )
+            i.material-icons filter_list

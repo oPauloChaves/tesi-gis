@@ -1,0 +1,13 @@
+#detail(ng-show='state === "DETAIL"')
+    .card-content
+        .subheader 
+            a
+                i.material-icons arrow_back
+            span {{ vm.getGeneralTitle() }}
+        .input-field
+            input(placeholder='Nome')
+        .input-field
+            textarea.materialize-textarea(placeholder='Descrição', rows='1')
+
+    .card-action
+        a(href='#') Salvar
