@@ -80,3 +80,7 @@ function storeLocation(location) {
         }
     });
 }
+
+function fetchLocations(callback) {
+    $.getJSON('http://localhost:3000/locations', (data) => callback(null, data))
+}
