@@ -11,7 +11,7 @@ const LocationSchema = new Schema({
     }
 });
 
-LocationSchema.index({ loc: '2d' });
+LocationSchema.index({ loc: '2dsphere' });
 
 const LocationModel = moongose.model('Location', LocationSchema);
 module.exports = LocationModel;

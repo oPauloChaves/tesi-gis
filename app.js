@@ -1,4 +1,5 @@
 const express = require('express');
+const load = require('express-load');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -32,17 +33,16 @@ app.use(compress());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', require('./routes'));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+/*// catch 404 and forward to error handler
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
-});
+});*/
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -51,5 +51,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+load('routes')
+  .into(app);
 
 module.exports = app;
