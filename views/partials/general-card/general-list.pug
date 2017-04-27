@@ -1,17 +1,18 @@
 #list(ng-show='state === "LIST"')
     .card-content
-        .subheader {{ vm.getGeneralTitle() }}
+        .subheader {{ vm.generalTitle }}
         ul.collection(ng-show='vm.myObjects.length > 0')
             li(ng-repeat='obj in vm.myObjects').collection-item.avatar
-            i.material-icons.circle {{ vm.getIcon(obj.type) }}
-            span.title {{ vm.obj.name }}
-            p {{ vm.obj.description }}
-            a(onclick='vm.toggleObject(obj)').secondary-content
-                i.material-icons {{ vm.getActionIcon('VISIBILITY') }}
-            a(onclick='vm.editObject(obj)').secondary-content
-                i.material-icons edit
-            a(onclick='vm.removeObject(obj)').secondary-content
-                i.material-icons delete
-            a(onclick='vm.lockObject(obj)').secondary-content
-                i.material-icons {{ vm.getActionIcon('LOCK') }}
+                i.material-icons.circle {{ vm.getIcon(obj.denominacao) }}
+                span.title {{ obj.nome }}
+                p {{ obj.descricao }}
+                .secondary-content
+                    a(ng-click='vm.toggleObject(obj)')
+                        i.material-icons {{ vm.getActionIcon('VISIBILITY') }}
+                    a(ng-click='vm.editObject(obj)')
+                        i.material-icons edit
+                    a(ng-click='vm.removeObject(obj)')
+                        i.material-icons delete
+                    a(ng-click='vm.lockObject(obj)')
+                        i.material-icons {{ vm.getActionIcon('LOCK') }}
         p(ng-show='vm.myObjects.length <= 0') Nenhum objeto cadastrado
