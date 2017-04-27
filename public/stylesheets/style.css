@@ -3,17 +3,107 @@ body {
   height: 100%;
 }
 
-.sidebar {
-  border-left: 1px solid lightgray;
-  height: 100%;
-}
-
-.tesi-content {
-  position: relative;
+.map {
   width: 100%;
   height: 100%;
+  position: absolute;
 }
 
-.tesi-content.map {
-  height: 1000px;
+header {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+  padding: 8px;
+}
+
+.search-card {
+  display: flex;
+  flex-flow: column;
+  width: 400px;
+  padding: 8px 16px;
+}
+
+.search-card > .search-input {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.search-card > .search-input .input-field {
+  margin: 0;
+  flex-basis: 100%;
+}
+
+.search-card > .search-input > .icons {
+  display: flex;
+  color: #bbb;
+  width: 80px;
+  justify-content: space-between;
+}
+
+.search-card > .search-input > .icons > .filter {
+  cursor: pointer;
+}
+
+.search-card > .search-input input {
+  margin: 0;
+  border-bottom: none;
+  width: 100%;
+}
+
+.search-card > .search-input input:focus:not([readonly]) {
+  border-bottom: none;
+}
+
+.search-card > .filter-box > .divider {
+  margin: 10px 0 16px;
+}
+
+.general-card {
+  display: flex;
+  flex-flow: column;
+  width: 400px;
+}
+
+.subheader {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: bold;
+  color: #999;
+  margin-right: 16px;
+}
+
+dialog {
+  width: 360px !important;
+}
+
+dialog > .mdl-dialog__title {
+  margin: -14px;
+  padding: 50px;
+  text-align: center;
+}
+
+dialog > .mdl-dialog__title > i {
+  font-size: 50px;
+  color: white;
+}
+
+/** OpenLayers */
+.ol-attribution {
+  display: none;
+}
+
+/** Material Design Lite */
+.mdl-grid {
+  width: 100%;
+}
+
+.search-card > .filter-box > .mdl-grid,
+.search-card > .filter-box > .mdl-grid > .mdl-cell {
+  margin: 0;
+  padding: 0;
+}
+
+.card-content > .subheader {
+  margin-bottom: 10px;
 }

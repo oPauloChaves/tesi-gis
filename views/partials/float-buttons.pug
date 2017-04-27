@@ -1,0 +1,46 @@
+.fixed-action-btn.horizontal.click-to-toggle
+    a.btn-floating.btn-large.blue-grey
+      i.material-icons add
+    ul
+      li
+        a.btn-floating.blue-grey.lighten-3.tooltipped(
+          data-position='top', 
+          data-relay='50', 
+          data-tooltip='Bairro',
+          ng-click='vm.drawObject("Polygon", "Bairro")')
+          i.material-icons border_outer
+      li
+        a.btn-floating.blue-grey.lighten-3.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Rua',
+          ng-click='vm.drawObject("LineString", "Rua")')
+          i.material-icons border_inner
+      li
+        a.btn-floating.blue-grey.lighten-3.tooltipped(
+          data-position='top',
+          data-relay='50', 
+          data-tooltip='Quadra',
+          ng-click='vm.drawObject("Polygon", "Quadra")')
+          i.material-icons border_all
+      li
+        a.btn-floating.blue-grey.lighten-3.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Edificações',
+          ng-click='vm.drawObject("Polygon", "Edificações")')
+          i.material-icons business
+      li
+        a.btn-floating.blue-grey.lighten-3.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Ponto de ônibus',
+          ng-click='vm.drawObject("Point", "Ponto de ônibus")')
+          i.material-icons directions_bus
+      li
+        a.btn-floating.blue-grey.lighten-3.tooltipped(
+          data-position='top',
+          data-relay='50',
+          data-tooltip='Rio',
+          ng-click='vm.drawObject("MultiLineString", "Rio")')
+          i.material-icons gesture
