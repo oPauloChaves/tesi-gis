@@ -2,22 +2,26 @@ angular
     .module('tesi')
     .controller('TesiController', TesiController);
 
-TesiController.$inject = ['$scope', 'openLayers', 'STATE'];
-function TesiController($scope, openLayers, STATE) {
+TesiController.$inject = ['$scope', 'openLayers', 'tesiService', 'STATE'];
+function TesiController($scope, openLayers, tesiService, STATE) {
     var vm = this;
     
     vm.myObjects;
     vm.selectedObject;
     vm.isFiltering;
+    vm.generalTitle;
 
     vm.drawObject = drawObject;
 
     vm.editObject = editObject;
+    vm.saveObject = saveObject;
     vm.removeObject = removeObject;
     vm.selectObject = selectObject;
     vm.lockObject = lockObject;
     vm.toggleLayer = toggleLayer;
 
+    vm.getIcon = getIcon;
+    vm.giveBack = giveBack;
     vm.getGeneralTitle = getGeneralTitle;
 
     active();
@@ -25,21 +29,17 @@ function TesiController($scope, openLayers, STATE) {
     //////////////////////////////////////
 
     function active() {
-        vm.myObjects = [];
         vm.selectedObject = null;
         vm.isFiltering = false;
         $scope.state = STATE.LIST;
+        getGeneralTitle();
+        tesiService.list()
+            .then(function(res) {
+                vm.myObjects = openLayers.parseFeature(res.data);
+            });
     }
 
     function selectObject() {
-
-    }
-
-    function removeObject() {
-
-    }
-
-    function editObject() {
 
     }
 
@@ -51,24 +51,98 @@ function TesiController($scope, openLayers, STATE) {
 
     }
 
+    function removeObject() {
+        tesiService.remove(vm.selectedObject)
+            .then(function(res) {
+                console.log('[SUCCESS] =>', res.data);
+            })
+            .catch(function (err) {
+                console.error('[ERROR] =>', err)
+            });
+    }
+
+    function editObject(obj) {
+        vm.selectedObject = angular.copy(obj);
+        vm.selectedObject.loc = openLayers.parseCoordinate(vm.selectedObject.loc);
+        vm.selectedObject.index = vm.myObjects.indexOf(obj);
+        $scope.state = STATE.DETAIL;
+        getGeneralTitle()
+    }
+
+    function saveObject() {
+        if(!!vm.selectedObject._id) {
+            tesiService.edit(vm.selectedObject)
+                .then(function(res) {
+                    console.info('[SUCCESS] =>', res.data);
+                    var feature = openLayers.parseFeature(res.data);
+                    vm.myObjects[vm.selectedObject.index] = feature;
+                    vm.selectedObject = null;
+                    $scope.state = STATE.LIST;
+                })
+                .catch(function (err) {
+                    console.error('[ERROR] =>', err)
+                });
+        } else {
+            tesiService.save(vm.selectedObject)
+                .then(function(res) {
+                    console.info('[SUCCESS] =>', res.data);
+                    var feature = openLayers.parseFeature(res.data);
+                    vm.myObjects.push(feature);
+                    vm.selectedObject = null;
+                    $scope.state = STATE.LIST;
+                })
+                .catch(function (err) {
+                    console.error('[ERROR] =>', err)
+                });
+        }
+    }
+
     function drawObject(geoType, type) {
         openLayers.draw(geoType, function (event) {
             openLayers.drawStrategy = null;
             vm.selectedObject = {};
-            vm.selectedObject = event.feature.getGeometry();
-            vm.selectedObject.denomination = type;
-            $scope.state = STATE.DETAIL;
+            vm.selectedObject.denominacao = type;
+            vm.selectedObject.loc = openLayers.parseCoordinate(event.feature.getGeometry());
+            $scope.$apply(function() {
+                $scope.state = STATE.DETAIL;
+                getGeneralTitle();
+            });
         });
+    }
+
+    function giveBack() {
+        $scope.state = STATE.LIST;
+        vm.selectedObject = null; 
+        getGeneralTitle();
+        if(!vm.selectedObject) openLayers.removeFeature();
+    }
+
+    function getIcon(denomicacao) {
+        switch(denomicacao) {
+            case 'Bairro':
+                return 'border_outer';
+            case 'Rua':
+                return 'border_inner';
+            case 'Quadra':
+                return 'border_all';
+            case 'Edificações':
+                return 'business';
+            case 'Ponto de ônibus':
+                return 'directions_bus';
+            case 'Rio':
+                return 'gesture';
+        }
     }
 
     function getGeneralTitle() {
         if(!vm.selectedObject) {
-            return 'Meus Objetos';   
+            vm.generalTitle = 'Meus Objetos';   
         } else if(!!vm.selectedObject.id && vm.selectedObject.update) {
-            return 'Editar Objeto';   
+            vm.generalTitle = 'Editar Objeto';   
         } else if(!!vm.selectedObject.id && !vm.selectedObject.update) {
-            return vm.selectedObject.name;   
+            vm.generalTitle = vm.selectedObject.name;   
+        } else {
+            vm.generalTitle = 'Novo objeto'; 
         }
-        return 'Novo objeto'; 
     }
 }
