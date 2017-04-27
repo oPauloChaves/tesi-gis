@@ -5,7 +5,7 @@ angular
 TesiController.$inject = ['$scope', 'openLayers', 'tesiService', 'STATE'];
 function TesiController($scope, openLayers, tesiService, STATE) {
     var vm = this;
-    
+
     vm.myObjects;
     vm.selectedObject;
     vm.isFiltering;
@@ -34,8 +34,9 @@ function TesiController($scope, openLayers, tesiService, STATE) {
         $scope.state = STATE.LIST;
         getGeneralTitle();
         tesiService.list()
-            .then(function(res) {
+            .then(function (res) {
                 vm.myObjects = openLayers.parseFeature(res.data);
+                openLayers.initializeOpenLayers(vm.myObjects);
             });
     }
 
@@ -53,7 +54,7 @@ function TesiController($scope, openLayers, tesiService, STATE) {
 
     function removeObject() {
         tesiService.remove(vm.selectedObject)
-            .then(function(res) {
+            .then(function (res) {
                 console.log('[SUCCESS] =>', res.data);
             })
             .catch(function (err) {
@@ -70,9 +71,9 @@ function TesiController($scope, openLayers, tesiService, STATE) {
     }
 
     function saveObject() {
-        if(!!vm.selectedObject._id) {
+        if (!!vm.selectedObject._id) {
             tesiService.edit(vm.selectedObject)
-                .then(function(res) {
+                .then(function (res) {
                     console.info('[SUCCESS] =>', res.data);
                     var feature = openLayers.parseFeature(res.data);
                     vm.myObjects[vm.selectedObject.index] = feature;
@@ -84,7 +85,7 @@ function TesiController($scope, openLayers, tesiService, STATE) {
                 });
         } else {
             tesiService.save(vm.selectedObject)
-                .then(function(res) {
+                .then(function (res) {
                     console.info('[SUCCESS] =>', res.data);
                     var feature = openLayers.parseFeature(res.data);
                     vm.myObjects.push(feature);
@@ -103,7 +104,7 @@ function TesiController($scope, openLayers, tesiService, STATE) {
             vm.selectedObject = {};
             vm.selectedObject.denominacao = type;
             vm.selectedObject.loc = openLayers.parseCoordinate(event.feature.getGeometry());
-            $scope.$apply(function() {
+            $scope.$apply(function () {
                 $scope.state = STATE.DETAIL;
                 getGeneralTitle();
             });
@@ -112,13 +113,13 @@ function TesiController($scope, openLayers, tesiService, STATE) {
 
     function giveBack() {
         $scope.state = STATE.LIST;
-        vm.selectedObject = null; 
+        vm.selectedObject = null;
         getGeneralTitle();
-        if(!vm.selectedObject) openLayers.removeFeature();
+        if (!vm.selectedObject) openLayers.removeFeature();
     }
 
     function getIcon(denomicacao) {
-        switch(denomicacao) {
+        switch (denomicacao) {
             case 'Bairro':
                 return 'border_outer';
             case 'Rua':
@@ -135,14 +136,14 @@ function TesiController($scope, openLayers, tesiService, STATE) {
     }
 
     function getGeneralTitle() {
-        if(!vm.selectedObject) {
-            vm.generalTitle = 'Meus Objetos';   
-        } else if(!!vm.selectedObject.id && vm.selectedObject.update) {
-            vm.generalTitle = 'Editar Objeto';   
-        } else if(!!vm.selectedObject.id && !vm.selectedObject.update) {
-            vm.generalTitle = vm.selectedObject.name;   
+        if (!vm.selectedObject) {
+            vm.generalTitle = 'Meus Objetos';
+        } else if (!!vm.selectedObject.id && vm.selectedObject.update) {
+            vm.generalTitle = 'Editar Objeto';
+        } else if (!!vm.selectedObject.id && !vm.selectedObject.update) {
+            vm.generalTitle = vm.selectedObject.name;
         } else {
-            vm.generalTitle = 'Novo objeto'; 
+            vm.generalTitle = 'Novo objeto';
         }
     }
 }
