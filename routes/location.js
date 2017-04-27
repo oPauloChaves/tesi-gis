@@ -44,6 +44,32 @@ module.exports = (app) => {
     })
 
     /**
+     * PUT
+     */
+    app.put('/locations/:id', (req, res, next) => {
+        Location.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, location) => {
+            if (err)
+                res.status(500).send(err)
+            else
+                res.status(200).send(location);
+        })
+    })
+
+
+    /**
+     * DELETE
+     */
+    app.delete('/locations/:id', (req, res, next) => {
+        Location.findOneAndRemove({ _id: req.params.id }, (err, location) => {
+            if (err)
+                res.status(500).send(err)
+            else
+                res.status(204).send({});
+        })
+    })
+
+
+    /**
      * GET the Locations near by Location
      * filter max distance (ex.:?distance=3)
      */
