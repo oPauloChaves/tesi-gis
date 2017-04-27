@@ -3,17 +3,79 @@ body {
   height: 100%;
 }
 
-.sidebar {
-  border-left: 1px solid lightgray;
-  height: 100%;
-}
-
-.tesi-content {
-  position: relative;
+.map {
   width: 100%;
   height: 100%;
+  position: absolute;
 }
 
-.tesi-content.map {
-  height: 1000px;
+header {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+.search-card {
+  display: flex;
+  flex-flow: column;
+  position: absolute;
+  width: 400px;
+  padding: 8px 16px;
+}
+
+.search-card > .search-input {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.search-card > .search-input .input-field {
+  margin: 0;
+  flex-basis: 100%;
+}
+
+.search-card > .search-input > .icons {
+  display: flex;
+  color: #bbb;
+  width: 80px;
+  justify-content: space-between;
+}
+
+.search-card > .search-input > .icons > .filter {
+  cursor: pointer;
+}
+
+.search-card > .search-input input {
+  margin: 0;
+  border-bottom: none;
+  width: 100%;
+}
+
+.search-card > .search-input input:focus:not([readonly]) {
+  border-bottom: none;
+}
+
+.search-card > .filter-box {
+  display: none;
+}
+
+.subheader {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: bold;
+  color: #999;
+  margin-right: 16px;
+}
+
+/** OpenLayers */
+.ol-attribution {
+  display: none;
+}
+
+/** Material Design Lite */
+.search-card > .filter-box > .mdl-grid,
+.search-card > .filter-box > .mdl-grid > .mdl-cell {
+  margin: 0;
+  padding: 0;
 }
