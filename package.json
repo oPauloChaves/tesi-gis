@@ -8,6 +8,7 @@
     "dev": "NODE_ENV=development DEBUG=tesi-gis:* node_modules/.bin/nodemon ./bin/www"
   },
   "dependencies": {
+    "angular": "^1.6.4",
     "body-parser": "~1.17.1",
     "compression": "^1.6.2",
     "cookie-parser": "~1.4.3",
