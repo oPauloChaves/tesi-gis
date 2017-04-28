@@ -36,6 +36,12 @@ function TesiController($scope, openLayers, tesiService, STATE) {
         tesiService.list()
             .then(function (res) {
                 vm.myObjects = openLayers.parseFeature(res.data);
+                // make the source object accessible in list features
+                vm.myObjects = vm.myObjects.map((feature, i) => {
+                  delete res.data[i].loc; // remove coordinates
+                  feature.tesi = res.data[i];
+                  return feature;
+                });
                 openLayers.initializeOpenLayers(vm.myObjects);
             });
     }

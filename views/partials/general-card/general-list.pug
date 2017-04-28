@@ -3,9 +3,9 @@
         .subheader {{ vm.generalTitle }}
         ul.collection(ng-show='vm.myObjects.length > 0')
             li(ng-repeat='obj in vm.myObjects').collection-item.avatar
-                i.material-icons.circle {{ vm.getIcon(obj.denominacao) }}
-                span.title {{ obj.nome }}
-                p {{ obj.descricao }}
+                i.material-icons.circle {{ vm.getIcon(obj.tesi.denominacao) }}
+                span.title {{ obj.tesi.nome }}
+                p {{ obj.tesi.descricao }}
                 .secondary-content
                     a(ng-click='vm.toggleObject(obj)')
                         i.material-icons {{ vm.getActionIcon('VISIBILITY') }}
