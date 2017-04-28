@@ -39,7 +39,8 @@ function openLayers() {
             layers: [vm.raster, vm.vector],
             target: 'map',
             view: new ol.View({
-                center: [-4765694, -567410],
+                projection: 'EPSG:4326',
+                center: [-42.811191, -5.090376],
                 zoom: 15
             })
         });
