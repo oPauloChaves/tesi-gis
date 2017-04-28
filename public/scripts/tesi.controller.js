@@ -58,10 +58,11 @@ function TesiController($scope, openLayers, tesiService, STATE) {
 
     }
 
-    function removeObject() {
-        tesiService.remove(vm.selectedObject)
+    function removeObject(obj) {
+        tesiService.remove(obj.tesi._id)
             .then(function (res) {
                 console.log('[SUCCESS] =>', res.data);
+                openLayers.source.removeFeature(obj);
             })
             .catch(function (err) {
                 console.error('[ERROR] =>', err)
@@ -94,6 +95,8 @@ function TesiController($scope, openLayers, tesiService, STATE) {
                 .then(function (res) {
                     console.info('[SUCCESS] =>', res.data);
                     var feature = openLayers.parseFeature(res.data);
+                    feature.tesi = res.data;
+                    delete feature.tesi.loc;
                     vm.myObjects.push(feature);
                     vm.selectedObject = null;
                     $scope.state = STATE.LIST;
