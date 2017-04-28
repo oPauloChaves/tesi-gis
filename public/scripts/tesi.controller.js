@@ -71,7 +71,6 @@ function TesiController($scope, openLayers, tesiService, STATE) {
 
     function editObject(obj) {
         vm.selectedObject = obj.tesi;
-        vm.selectedObject.loc = openLayers.parseCoordinate(obj.getGeometry());
         vm.selectedObject.index = vm.myObjects.indexOf(obj);
         $scope.state = STATE.DETAIL;
         getGeneralTitle()
