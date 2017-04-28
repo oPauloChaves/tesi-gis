@@ -6,7 +6,7 @@ tesiService.$injector = ['$http'];
 function tesiService($http) {
 
     var vm = this;
-    
+
     vm.save = save;
     vm.load = load;
     vm.list = list;
@@ -23,7 +23,10 @@ function tesiService($http) {
         return $http.get('/locations/'.concat(id));
     }
 
-    function list() {
+    function list(q) {
+        if (q) {
+          return $http.get('/locations?nome='+q);
+        }
         return $http.get('/locations');
     }
 

@@ -10,6 +10,7 @@ function TesiController($scope, openLayers, tesiService, STATE) {
     vm.selectedObject;
     vm.isFiltering;
     vm.generalTitle;
+    vm.searchInput;
 
     vm.drawObject = drawObject;
 
@@ -19,6 +20,7 @@ function TesiController($scope, openLayers, tesiService, STATE) {
     vm.selectObject = selectObject;
     vm.lockObject = lockObject;
     vm.toggleLayer = toggleLayer;
+    vm.searchFeatures = searchFeatures;
 
     vm.getIcon = getIcon;
     vm.giveBack = giveBack;
@@ -141,8 +143,6 @@ function TesiController($scope, openLayers, tesiService, STATE) {
                 return 'border_all';
             case 'Edificações':
                 return 'business';
-            case 'Ponto de ônibus':
-                return 'directions_bus';
             case 'Rio':
                 return 'gesture';
         }
@@ -158,5 +158,21 @@ function TesiController($scope, openLayers, tesiService, STATE) {
         } else {
             vm.generalTitle = 'Novo objeto';
         }
+    }
+
+    function searchFeatures() {
+      openLayers.source.clear();
+
+      var q = vm.searchInput.trim();
+
+      tesiService.list(q)
+        .then(function(res) {
+          console.info('[FILTERED] =>', res.data);
+          openLayers.parseFeature(res.data).forEach((feature, i) => {
+            delete res.data[i].loc; // remove coordinates
+            feature.tesi = res.data[i];
+            openLayers.addFeature(feature);
+          });
+        });
     }
 }

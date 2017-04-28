@@ -1,6 +1,10 @@
 .search-input
     .input-field
-        input.validate(placeholder='Pesquisar')
+        input.validate(
+          placeholder='Pesquisar'
+          ng-model='vm.searchInput'
+          ng-change='vm.searchFeatures()'
+        )
     .icons
         i.material-icons search
         a.filter.tooltipped(
