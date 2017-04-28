@@ -62,7 +62,7 @@ function TesiController($scope, openLayers, tesiService, STATE) {
         tesiService.remove(obj.tesi._id)
             .then(function (res) {
                 console.log('[SUCCESS] =>', res.data);
-                openLayers.source.removeFeature(obj);
+                openLayers.removeFeature(obj);
             })
             .catch(function (err) {
                 console.error('[ERROR] =>', err)
@@ -70,41 +70,46 @@ function TesiController($scope, openLayers, tesiService, STATE) {
     }
 
     function editObject(obj) {
-        vm.selectedObject = angular.copy(obj);
-        vm.selectedObject.loc = openLayers.parseCoordinate(vm.selectedObject.loc);
+        vm.selectedObject = obj.tesi;
+        vm.selectedObject.loc = openLayers.parseCoordinate(obj.getGeometry());
         vm.selectedObject.index = vm.myObjects.indexOf(obj);
         $scope.state = STATE.DETAIL;
         getGeneralTitle()
     }
 
     function saveObject() {
-        if (!!vm.selectedObject._id) {
-            tesiService.edit(vm.selectedObject)
-                .then(function (res) {
-                    console.info('[SUCCESS] =>', res.data);
-                    var feature = openLayers.parseFeature(res.data);
-                    vm.myObjects[vm.selectedObject.index] = feature;
-                    vm.selectedObject = null;
-                    $scope.state = STATE.LIST;
-                })
-                .catch(function (err) {
-                    console.error('[ERROR] =>', err)
-                });
-        } else {
-            tesiService.save(vm.selectedObject)
-                .then(function (res) {
-                    console.info('[SUCCESS] =>', res.data);
-                    var feature = openLayers.parseFeature(res.data);
-                    feature.tesi = res.data;
-                    delete feature.tesi.loc;
-                    vm.myObjects.push(feature);
-                    vm.selectedObject = null;
-                    $scope.state = STATE.LIST;
-                })
-                .catch(function (err) {
-                    console.error('[ERROR] =>', err)
-                });
-        }
+      if (!!vm.selectedObject._id) {
+        var coords = openLayers.parseCoordinate(vm.myObjects[vm.selectedObject.index].getGeometry());
+        vm.selectedObject.loc = coords;
+
+        tesiService.edit(vm.selectedObject)
+          .then(function (res) {
+            console.info('[SUCCESS] =>', res.data);
+            var feature = openLayers.parseFeature(res.data);
+            feature.tesi = res.data;
+            delete feature.tesi.loc;
+            vm.myObjects[vm.selectedObject.index] = feature;
+            vm.selectedObject = null;
+            $scope.state = STATE.LIST;
+          })
+          .catch(function (err) {
+            console.error('[ERROR] =>', err)
+          });
+      } else {
+        tesiService.save(vm.selectedObject)
+          .then(function (res) {
+            console.info('[SUCCESS] =>', res.data);
+            var feature = openLayers.parseFeature(res.data);
+            feature.tesi = res.data;
+            delete feature.tesi.loc;
+            vm.myObjects.push(feature);
+            vm.selectedObject = null;
+            $scope.state = STATE.LIST;
+          })
+          .catch(function (err) {
+            console.error('[ERROR] =>', err)
+          });
+      }
     }
 
     function drawObject(geoType, type) {
