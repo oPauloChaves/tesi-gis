@@ -8,6 +8,7 @@ function openLayers() {
 
     vm.initializeOpenLayers = initializeOpenLayers;
 
+    vm.modifyState = false;
     vm.draw = draw;
     vm.parseFeature = parseFeature;
     vm.parseCoordinate = parseCoordinate;
@@ -15,6 +16,7 @@ function openLayers() {
     vm.addFeature = addFeature;
     vm.editFeature = editFeature;
     vm.removeFeature = removeFeature;
+
 
     //////////////////////////////////////
 
@@ -46,9 +48,20 @@ function openLayers() {
             })
         });
 
+        vm.modify = new ol.interaction.Modify({
+          features: features,
+          // the SHIFT key must be pressed to delete vertices, so
+          // that new vertices can be drawn at the same position
+          // of existing vertices
+          deleteCondition: function (event) {
+            return ol.events.condition.shiftKeyOnly(event) &&
+              ol.events.condition.singleClick(event);
+          }
+        });
+
         highlightFeature();
-        selectFeature();
-        modifyFeature(features);
+        selectFeature(features);
+    
     }
 
     function draw(geoType, cb) {
@@ -111,7 +124,7 @@ function openLayers() {
                 width: 2
               }),
               fill: new ol.style.Fill({
-                color: 'rgba(240,215,215,0.1)'
+                color: 'rgba(240,0,0,0.1)'
               })
             });
           }
@@ -159,20 +172,26 @@ function openLayers() {
     }
 
     /* Select an object when clicking on it */
-    function selectFeature() {
+    function selectFeature(features) {
       // a normal select interaction to handle click
-      var select = new ol.interaction.Select({
+      vm.select = new ol.interaction.Select({
         style: new ol.style.Style({
           stroke: new ol.style.Stroke({
-            color: '#f00',
+            color: '#8BC34A',
             width: 2
           }),
           fill: new ol.style.Fill({
-            color: 'rgba(240,215,215,0.1)'
+            color: 'rgba(0,230,0,0.1)'
           })
         })
       });
-      vm.map.addInteraction(select);
+
+      vm.select.on('select', (evt)=>{
+          toggleModifyFeature(features);
+      })
+      
+      vm.map.addInteraction(vm.select);
+      
     }
 
     /**
@@ -182,17 +201,14 @@ function openLayers() {
      *
      * @param {any} features
      */
-    function modifyFeature(features) {
-      var modify = new ol.interaction.Modify({
-        features: features,
-        // the SHIFT key must be pressed to delete vertices, so
-        // that new vertices can be drawn at the same position
-        // of existing vertices
-        deleteCondition: function (event) {
-          return ol.events.condition.shiftKeyOnly(event) &&
-            ol.events.condition.singleClick(event);
-        }
-      });
-      vm.map.addInteraction(modify);
+    function toggleModifyFeature(features) {
+     
+      if(!vm.modifyState){
+        vm.map.addInteraction(vm.modify);
+        vm.modifyState = true;
+      } else if (vm.modifyState) {
+        vm.map.removeInteraction(vm.modify);
+        vm.modifyState = false;
+      }
     }
 }
