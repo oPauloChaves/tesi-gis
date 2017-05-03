@@ -1,13 +1,18 @@
 #detail(ng-show='state === "DETAIL"')
-    .card-content
-        .subheader 
-            a
-                i.material-icons arrow_back
-            span {{ vm.getGeneralTitle() }}
-        .input-field
-            input(placeholder='Nome')
-        .input-field
-            textarea.materialize-textarea(placeholder='Descrição', rows='1')
+    form(name='objectForm')
+        .card-content
+            .subheader 
+                a(ng-click='vm.giveBack()')
+                    i.material-icons arrow_back
+                span {{ vm.generalTitle }}
+            .input-field
+                input(placeholder='Nome', class='detail-input', ng-model='vm.selectedObject.nome')
+            .input-field.textarea
+                textarea(id='description',
+                    placedolder='Descrição',
+                    class='materialize-textarea detail-input',
+                    ng-model='vm.selectedObject.descricao')
+                label(for='description') Descrição
 
-    .card-action
-        a(href='#') Salvar
+        .card-action
+            a(href='#', ng-click='vm.saveObject()', ng-disable='objectForm.$invalid') Salvar

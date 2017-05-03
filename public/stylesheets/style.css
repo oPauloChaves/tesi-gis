@@ -66,6 +66,8 @@ header {
 }
 
 .subheader {
+  display: flex;
+  align-items: center;
   text-transform: uppercase;
   font-size: 13px;
   font-weight: bold;
@@ -73,19 +75,34 @@ header {
   margin-right: 16px;
 }
 
-dialog {
-  width: 360px !important;
+.subheader > a {
+  margin-right: 10px;
+  cursor: pointer;
 }
 
-dialog > .mdl-dialog__title {
-  margin: -14px;
-  padding: 50px;
-  text-align: center;
+.subheader > span {
+  margin-top: -5px;
 }
 
-dialog > .mdl-dialog__title > i {
-  font-size: 50px;
-  color: white;
+.detail-input {
+  border-bottom: 1px solid #ccc !important;
+}
+
+ul.collection {
+  border: none;
+}
+
+ul.collection > li > .secondary-content > a {
+  padding: 2px;
+  cursor: pointer;
+}
+
+.card-content > .input-field.textarea {
+  margin-top: 0;
+}
+
+.card-content > .input-field > textarea {
+  padding: 0;
 }
 
 /** OpenLayers */
@@ -106,4 +123,14 @@ dialog > .mdl-dialog__title > i {
 
 .card-content > .subheader {
   margin-bottom: 10px;
+}
+
+.card-action {
+  text-align: right;
+}
+
+.card-action > a {
+  color: #039be5 !important;
+  font-weight: bold;
+  margin: 0 !important;
 }
