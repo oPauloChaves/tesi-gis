@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development DEBUG=tesi-gis:* node_modules/.bin/nodemon ./bin/www"
   },
   "dependencies": {
-    "angular": "^1.6.4",
+    "angular": "^1.7.9",
     "angular-material": "^1.1.4",
     "body-parser": "~1.17.1",
     "compression": "^1.6.2",
